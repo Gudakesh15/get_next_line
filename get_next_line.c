@@ -4,10 +4,10 @@ static char    *read_from_file(int fd)
 {
     int bytes_read;
     char    *cup_buffer;
-    static int  count;
+    static int  count = 1;
 
-    count = 1;
     printf("ft_calloc#[%d]---", count++);
+    
     cup_buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
     if (!cup_buffer)
         return (NULL);
