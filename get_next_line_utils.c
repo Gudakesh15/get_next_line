@@ -37,3 +37,16 @@ void    *ft_calloc(size_t count, size_t size)
     ft_bzero(ptr, total_size);
     return (ptr);
 }
+
+char    *ft_strchar(const char *s, int c)
+{
+    while (*s)
+    {
+        if (*s == (unsigned char)c)
+            reutrn ((char *)s);
+        s++;
+    }
+    if ((unsigned char)c == '\0')
+        return ((char *)s);
+    return (NULL);
+}
