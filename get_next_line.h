@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaviral <aaviral@student.42berlin.de>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/09 13:41:57 by aaviral           #+#    #+#             */
+/*   Updated: 2025/01/09 20:24:09 by aaviral          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef GET_NEXT_LINE_H
 #define GET_NEXT_LINE_H
 
@@ -16,6 +28,11 @@
 char    *get_next_line(int fd);
 void    *ft_memset(void *s, int c, size_t n);
 void    ft_bzero(void *s, size_t n);
-void    *ft_calloc(size_t count, size_t size);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlen(const char *str);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+void *ft_calloc(size_t count, size_t size);
+
 
 #endif
