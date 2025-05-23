@@ -15,6 +15,7 @@
 char	*append_buffer(char *basin_buffer, char *cup_buffer)
 {
 	char	*temp;
+
 	temp = ft_strjoin(basin_buffer, cup_buffer);
 	if (basin_buffer)
 		free (basin_buffer);
@@ -23,7 +24,7 @@ char	*append_buffer(char *basin_buffer, char *cup_buffer)
 
 static char	*read_from_file(char *basin_buffer, int fd)
 {
-	int	bytes_read;
+	int		bytes_read;
 	char	*cup_buffer;
 
 	cup_buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
@@ -84,43 +85,25 @@ char	*obtain_remaining(char *basin_buffer)
 	return (remaining);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-    static char *basin_buffer = NULL;
-    char *line = NULL;
-    char *temp;
+	static char		*basin_buffer;
+	char			*line;
+	char			*temp;
 
-    // Invalid FD or read test fails
-    if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
-    {
-        if (basin_buffer)
-        {
-            free(basin_buffer);
-            basin_buffer = NULL;
-        }
-        return NULL;
-    }
-
-    // Allocate empty buffer if first call
-    if (!basin_buffer)
-        basin_buffer = ft_calloc(1, sizeof(char));
-
-    // Read more only if no '\n' present
-    if (!ft_strchr(basin_buffer, '\n'))
-    {
-        temp = read_from_file(basin_buffer, fd);
-        if (!temp)
-        {
-            free(basin_buffer);
-            basin_buffer = NULL;
-            return NULL;
-        }
-        basin_buffer = temp;
-    }
-
-    // Extract line and update buffer
-    line = extract_line(basin_buffer);
-    basin_buffer = obtain_remaining(basin_buffer);
-
-    return line;
+	line = NULL;
+	if (fd < 0 || BUFFER_SIZE < 0 || read (fd, NULL, 0) < 0)
+		return (free(basin_buffer), basin_buffer = NULL, NULL);
+	if (!basin_buffer)
+		basin_buffer = ft_calloc(1, sizeof(char));
+	if (!ft_strchr(basin_buffer, '\n'))
+	{
+		temp = read_from_file(basin_buffer, fd);
+		if (!temp)
+			return (free(basin_buffer), basin_buffer = NULL, NULL);
+		basin_buffer = temp;
+	}
+	line = extract_line(basin_buffer);
+	basin_buffer = obtain_remaining(basin_buffer);
+	return (line);
 }
