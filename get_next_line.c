@@ -6,7 +6,7 @@
 /*   By: aaviral <aaviral@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 13:41:27 by aaviral           #+#    #+#             */
-/*   Updated: 2025/05/22 16:50:16 by aaviral          ###   ########.fr       */
+/*   Updated: 2025/05/24 10:46:18 by aaviral          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static char	*read_from_file(char *basin_buffer, int fd)
 {
 	int		bytes_read;
 	char	*cup_buffer;
+	char	*temp;
 
 	cup_buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!cup_buffer)
@@ -37,7 +38,10 @@ static char	*read_from_file(char *basin_buffer, int fd)
 		if (bytes_read == -1)
 			return (free(cup_buffer), NULL);
 		cup_buffer[bytes_read] = '\0';
-		basin_buffer = append_buffer(basin_buffer, cup_buffer);
+		temp = append_buffer(basin_buffer, cup_buffer);
+		if (!temp)
+			return (free(cup_buffer), NULL);
+		basin_buffer = temp;
 		if (ft_strchr(basin_buffer, '\n'))
 			break ;
 	}
@@ -95,7 +99,11 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 0 || read (fd, NULL, 0) < 0)
 		return (free(basin_buffer), basin_buffer = NULL, NULL);
 	if (!basin_buffer)
+	{
 		basin_buffer = ft_calloc(1, sizeof(char));
+		if (!basin_buffer)
+			return (NULL);
+	}
 	if (!ft_strchr(basin_buffer, '\n'))
 	{
 		temp = read_from_file(basin_buffer, fd);
@@ -104,6 +112,8 @@ char	*get_next_line(int fd)
 		basin_buffer = temp;
 	}
 	line = extract_line(basin_buffer);
+	if (!line)
+		return (free(basin_buffer), basin_buffer = NULL, NULL);
 	basin_buffer = obtain_remaining(basin_buffer);
 	return (line);
 }
